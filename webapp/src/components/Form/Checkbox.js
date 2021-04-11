@@ -1,6 +1,11 @@
 import Label from "./Label";
 
-const CheckboxInner = ({ formData, value, name = undefined, onChange = undefined }) => {
+const CheckboxInner = ({
+  formData,
+  value,
+  name = undefined,
+  onChange = undefined,
+}) => {
   let innerValue = value;
   if (value === undefined && formData !== undefined) {
     if (name in formData) {
@@ -20,11 +25,27 @@ const CheckboxInner = ({ formData, value, name = undefined, onChange = undefined
     }
   };
 
-  return <input className="focus:outline-none mr-4" name={name} id={name} checked={innerValue} type="checkbox" onChange={handleChange} />;
+  return (
+    <input
+      className="focus:outline-none mr-4"
+      name={name}
+      id={name}
+      checked={innerValue}
+      type="checkbox"
+      onChange={handleChange}
+    />
+  );
 };
 
 const Checkbox = (props) => {
-  const { label = undefined, name = undefined, isRequired = false, className = undefined, error = undefined, errorsIn = undefined } = props;
+  const {
+    label = undefined,
+    name = undefined,
+    isRequired = false,
+    className = undefined,
+    error = undefined,
+    errorsIn = undefined,
+  } = props;
 
   let inner = null;
 
@@ -33,7 +54,9 @@ const Checkbox = (props) => {
       return <div className="text-sm text-red-600 px-4 py-1">{error}</div>;
     }
     if (!!errorsIn && name in errorsIn) {
-      return <div className="text-sm text-red-600 px-4 py-1">{errorsIn[name]}</div>;
+      return (
+        <div className="text-sm text-red-600 px-4 py-1">{errorsIn[name]}</div>
+      );
     }
     return null;
   };

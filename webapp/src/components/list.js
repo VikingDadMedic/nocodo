@@ -46,6 +46,15 @@ const componentsList = [
       tag: {
         type: ControlType.Enum,
         options: ["h1", "h2", "h3", "h4", "h5", "h6", "p"],
+        optionTitles: [
+          "Heading 1",
+          "Heading 2",
+          "Heading 3",
+          "Heading 4",
+          "Heading 5",
+          "Heading 6",
+          "Paragraph",
+        ],
       },
       size: {
         type: ControlType.Enum,
@@ -72,6 +81,48 @@ const componentsList = [
       align: {
         type: ControlType.Enum,
         options: ["left", "center", "right", "justify"],
+      },
+    },
+  },
+  {
+    name: "Hero",
+    component: loadable(() => import("components/Content/Hero")),
+    propertyControls: {
+      intro: {
+        type: ControlType.ComponentInstance,
+        allowedComponents: ["Text"],
+        defaultProps: [
+          {
+            tag: "p",
+            className: "uppercase tracking-loose w-full",
+            children: "What business are you?",
+          },
+        ],
+      },
+      title: {
+        type: ControlType.ComponentInstance,
+        allowedComponents: ["Text"],
+        defaultProps: [
+          {
+            tag: "h1",
+            className: "my-4 font-bold leading-tight",
+            size: "5xl",
+            children: "Main Hero Message to sell yourself!",
+          },
+        ],
+      },
+      subTitle: {
+        type: ControlType.ComponentInstance,
+        allowedComponents: ["Text"],
+        defaultProps: [
+          {
+            tag: "p",
+            className: "leading-normal mb-8",
+            size: "2xl",
+            children:
+              "Sub-hero message, not too long and not too short. Make it just right!",
+          },
+        ],
       },
     },
   },

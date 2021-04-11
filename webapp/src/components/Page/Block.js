@@ -1,9 +1,3 @@
-import { ControlType, applyPropertyControls } from "property-controls";
-
-import Hero from "assets/images/hero.png";
-import Text from "components/Content/Text";
-import useAdmin from "services/stores/admin";
-
 const Divider = () => {
   return (
     <div className="relative -mt-12 lg:-mt-24">
@@ -44,57 +38,6 @@ const Divider = () => {
     </div>
   );
 };
-
-export const HeroBlock = ({
-  intro = "What business are you?",
-  title = "Main Hero Message to sell yourself!",
-  subTitle = "Sub-hero message, not too long and not too short. Make it just right!",
-}) => {
-  const isInWidgetAdmin = useAdmin((state) => state.isInWidgetAdmin);
-
-  return (
-    <div className={`pt-24 ${isInWidgetAdmin ? "hover:outline-blue" : ""}`}>
-      <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
-        <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-          <Text tag="p" className="uppercase tracking-loose w-full">
-            {intro}
-          </Text>
-
-          <Text tag="h1" className="my-4 font-bold leading-tight" size="5xl">
-            {title}
-          </Text>
-
-          <Text tag="p" className="leading-normal mb-8" size="2xl">
-            {subTitle}
-          </Text>
-
-          <button className="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-            Subscribe
-          </button>
-        </div>
-
-        <div className="w-full md:w-3/5 py-6 text-center">
-          <img className="w-full md:w-4/5 z-50" src={Hero} alt="Hero" />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-applyPropertyControls(HeroBlock, {
-  hasIntro: {
-    type: ControlType.Boolean,
-    title: "Toggle intro message",
-  },
-  intro: {
-    type: ControlType.String,
-    title: "Intro message",
-  },
-  title: {
-    type: ControlType.String,
-    title: "Leading title",
-  },
-});
 
 const VerticalContentStack = () => {
   return (
@@ -579,15 +522,3 @@ const VerticalContentStack = () => {
     </section>
   );
 };
-
-const Block = ({ contentType }) => {
-  if (contentType === "hero") {
-    return <HeroBlock />;
-  } else if (contentType === "divider") {
-    return <Divider />;
-  } else if (contentType === "vertical-stack") {
-    return <VerticalContentStack />;
-  }
-};
-
-export default Block;

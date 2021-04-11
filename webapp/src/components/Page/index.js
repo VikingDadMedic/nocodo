@@ -1,11 +1,9 @@
-import Block from "./Block";
+import BlockLoader from "components/Block/Loader";
 
 const Page = () => {
   return (
     <>
-      <Block contentType="hero" />
-      <Block contentType="divider" />
-      <Block contentType="vertical-stack" />
+      <BlockLoader name="Hero" />
     </>
   );
 };

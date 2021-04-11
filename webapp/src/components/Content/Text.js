@@ -8,8 +8,8 @@ const Text = ({
   className = undefined,
   size = undefined,
   color = undefined,
-  text = undefined,
   align = undefined,
+  text = undefined,
   children,
 }) => {
   const { isInWidgetAdmin, setCurrentWidget } = useAdmin(
@@ -37,7 +37,7 @@ const Text = ({
 
   const handleClick = () => {
     if (isInWidgetAdmin) {
-      // We are in admin/CMS mode, we let the app know which element we are
+      // We are in admin/CMS mode, we let the app know which block we are
       setCurrentWidget({
         name: "Text",
       });
