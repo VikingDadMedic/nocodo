@@ -1,10 +1,25 @@
 import { ControlType } from "property-controls";
+import shallow from "zustand/shallow";
 
 import componentsList from "components/list";
+import useAdmin from "services/stores/admin";
 
 const BlockLoader = ({ name, defaultProps = {} }) => {
   const componentItem = componentsList.find((x) => x.name === name);
   const Component = componentItem.component;
+  const {
+    isInBlockAdmin,
+    setCurrentBlock,
+    setPropertyControlValues,
+  } = useAdmin(
+    (state) => ({
+      isInBlockAdmin: state.isInBlockAdmin,
+      setCurrentBlock: state.setCurrentBlock,
+      setPropertyControlValues: state.setPropertyControlValues,
+    }),
+    shallow
+  );
+
   const props = {
     ...defaultProps,
   };
@@ -19,9 +34,26 @@ const BlockLoader = ({ name, defaultProps = {} }) => {
       );
     }
   }
+
+  const handleClick = () => {
+    if (isInBlockAdmin) {
+      // We are in admin/CMS mode, we let the app know which block we are
+      setCurrentBlock(
+        {
+          name,
+        },
+        props
+      );
+    }
+  };
+
   return (
     <>
-      <Component {...props} />
+      <Component
+        {...props}
+        isInBlockAdmin={isInBlockAdmin}
+        onClick={handleClick}
+      />
     </>
   );
 };

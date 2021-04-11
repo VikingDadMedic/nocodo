@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import Label from "./Label";
 
-const Inner = ({ options, getValue, getLabel }) => {
+const Inner = ({ name, options, getValue, getLabel, formData }) => {
   return (
-    <select>
+    <select name={name} value={formData[name]}>
       {options.map((x) => (
         <option key={`opt-${getValue(x)}`} value={getValue(x)}>
           {getLabel(x)}
@@ -18,13 +18,9 @@ const Select = (props) => {
   const {
     name,
     options,
-    formData,
     formError,
-    getValue,
-    getLabel,
     label = undefined,
     isRequired = false,
-    onChange = undefined,
   } = props;
   const [filteredOptions, setFilteredOptions] = useState(options);
 

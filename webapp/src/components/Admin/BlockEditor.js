@@ -3,7 +3,8 @@ import { ControlType } from "property-controls";
 import componentsList from "components/list";
 import useAdmin from "services/stores/admin";
 import Select from "components/Form/Select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import shallow from "zustand/shallow";
 
 const Controls = ({ propertyControls, formData }) => {
   const controls = [];
@@ -32,6 +33,7 @@ const Controls = ({ propertyControls, formData }) => {
         <div key={`ctrl-${x}`} className="my-6">
           <Select
             label={x}
+            name={x}
             options={options}
             formData={formData}
             getLabel={getLabel}
@@ -47,22 +49,38 @@ const Controls = ({ propertyControls, formData }) => {
 
 const BlockEditor = () => {
   const [formData, setFormData] = useState({});
-  const currentWidget = useAdmin((state) => state.currentWidget);
-  const componentItem = componentsList.find(
-    (x) => x.name === currentWidget.name
+  const { currentBlockType, currentPropertyControlValues } = useAdmin(
+    (state) => ({
+      currentBlockType: state.currentBlockType,
+      currentPropertyControlValues: state.currentPropertyControlValues,
+    }),
+    shallow
   );
-  const Component = componentItem.component;
 
-  return (
-    <>
-      <span className="text-xs">{currentWidget.uuid}</span>
+  useEffect(() => {
+    setFormData(currentPropertyControlValues);
+  }, [currentPropertyControlValues]);
 
-      <Controls
-        propertyControls={componentItem.propertyControls}
-        formData={formData}
-      />
-    </>
-  );
+  if (!!currentBlockType) {
+    const componentItem = componentsList.find(
+      (x) => x.name === currentBlockType.name
+    );
+
+    return (
+      <>
+        <h3 className="font-semibold text-xl leading-normal">
+          Block: &lt;{currentBlockType.name} /&gt;
+        </h3>
+
+        <Controls
+          propertyControls={componentItem.propertyControls}
+          formData={formData}
+        />
+      </>
+    );
+  } else {
+    return <p>You have not selected any block to edit</p>;
+  }
 };
 
 export default BlockEditor;

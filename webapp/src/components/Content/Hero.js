@@ -2,10 +2,10 @@ import HeroImage from "assets/images/hero.png";
 import useAdmin from "services/stores/admin";
 
 export const Hero = ({ title, intro = undefined, subTitle = undefined }) => {
-  const isInWidgetAdmin = useAdmin((state) => state.isInWidgetAdmin);
+  const isInBlockAdmin = useAdmin((state) => state.isInBlockAdmin);
 
   return (
-    <div className={`pt-24 ${isInWidgetAdmin ? "hover:outline-blue" : ""}`}>
+    <div className={`pt-24 ${isInBlockAdmin ? "hover:outline-blue" : ""}`}>
       <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
         <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
           {!!intro ? <>{intro}</> : null}

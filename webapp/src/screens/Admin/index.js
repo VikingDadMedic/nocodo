@@ -6,7 +6,7 @@ import BlockEditor from "components/Admin/BlockEditor";
 import BlockLoader from "components/Block/Loader";
 
 const Sidebar = () => {
-  const currentWidget = useAdmin((state) => state.currentWidget);
+  const currentBlockType = useAdmin((state) => state.currentBlockType);
 
   return (
     <div className="fixed z-50 top-0 right-0 h-screen w-64 bg-gray-200 border-l-2 border-gray-300 p-2">
@@ -14,7 +14,7 @@ const Sidebar = () => {
         Click on a Block to edit
       </h6>
 
-      {!!currentWidget && <BlockEditor />}
+      {!!currentBlockType && <BlockEditor />}
     </div>
   );
 };
@@ -24,6 +24,10 @@ const Admin = () => {
 
   useEffect(() => {
     toggleEditing(true);
+
+    return () => {
+      toggleEditing(false);
+    };
   }, [toggleEditing]);
 
   return (

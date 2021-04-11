@@ -1,8 +1,9 @@
 import create from "zustand";
 
 const initialState = {
-  isInWidgetAdmin: false,
-  currentWidget: null,
+  isInBlockAdmin: false,
+  currentBlockType: null,
+  currentPropertyControlValues: {},
 };
 
 const useAdmin = create((set, get) => ({
@@ -11,14 +12,44 @@ const useAdmin = create((set, get) => ({
   toggleEditing: (value = undefined) => {
     set((state) => ({
       ...state,
-      isInWidgetAdmin: value !== undefined ? value : !state.isInWidgetAdmin,
+      isInBlockAdmin: value !== undefined ? value : !state.isInBlockAdmin,
+      currentBlockType:
+        value === false || (value === undefined && state.isInBlockAdmin)
+          ? null
+          : state.currentBlockType,
+      currentPropertyControlValues:
+        value === false || (value === undefined && state.isInBlockAdmin)
+          ? {}
+          : state.currentPropertyControlValues,
     }));
   },
 
-  setCurrentWidget: (widgetState) => {
+  setCurrentBlock: (widgetState, propertyControlValues = {}) => {
     set((state) => ({
       ...state,
-      currentWidget: widgetState,
+      currentBlockType: widgetState,
+      currentPropertyControlValues: {
+        ...propertyControlValues,
+      },
+    }));
+  },
+
+  setPropertyControlValues: (mapping) => {
+    set((state) => ({
+      ...state,
+      currentPropertyControlValues: {
+        ...mapping,
+      },
+    }));
+  },
+
+  setPropertyControlValue: (name, value) => {
+    set((state) => ({
+      ...state,
+      currentPropertyControlValues: {
+        ...state.currentPropertyControlValues,
+        [name]: value,
+      },
     }));
   },
 }));
