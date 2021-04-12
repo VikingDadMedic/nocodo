@@ -8,6 +8,7 @@ const Text = ({
   align = undefined,
   text = undefined,
   isInBlockAdmin = false,
+  isBlockSelected = false,
   onClick = undefined,
   children,
 }) => {
@@ -24,13 +25,12 @@ const Text = ({
   if (isInBlockAdmin) {
     innerClassName = `${innerClassName} hover:outline-blue cursor-default`;
   }
+  if (isBlockSelected) {
+    innerClassName = `${innerClassName} outline-blue`;
+  }
   const innerChildren = children || text;
 
-  const handleClick = () => {
-    if (!!onClick) {
-      onClick();
-    }
-  };
+  const handleClick = !!onClick ? onClick : undefined;
 
   return createElement(
     tag,

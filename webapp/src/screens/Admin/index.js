@@ -39,7 +39,7 @@ const Admin = () => {
 
       <Sidebar />
 
-      <BlockLoader name="Hero" />
+      <BlockLoader blockType="Hero" />
     </>
   );
 };

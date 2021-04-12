@@ -3,26 +3,47 @@ import shallow from "zustand/shallow";
 
 import componentsList from "components/list";
 import useAdmin from "services/stores/admin";
+import { useEffect, useState } from "react";
 
-const BlockLoader = ({ name, defaultProps = {} }) => {
-  const componentItem = componentsList.find((x) => x.name === name);
+let unsavedId = 2147483647;
+
+const BlockLoader = ({
+  blockType,
+  id = undefined,
+  defaultProps = {},
+  savedProps,
+}) => {
+  const componentItem = componentsList.find((x) => x.name === blockType);
   const Component = componentItem.component;
   const {
     isInBlockAdmin,
     setCurrentBlock,
-    setPropertyControlValues,
+    currentBlockId,
+    currentPropertyControlValues,
   } = useAdmin(
     (state) => ({
       isInBlockAdmin: state.isInBlockAdmin,
       setCurrentBlock: state.setCurrentBlock,
-      setPropertyControlValues: state.setPropertyControlValues,
+      currentBlockId: state.currentBlockId,
+      currentPropertyControlValues: state.currentPropertyControlValues,
     }),
     shallow
   );
 
-  const props = {
+  const [blockId] = useState(!!id ? id : ++unsavedId);
+  const [props, setProps] = useState({
     ...defaultProps,
-  };
+  });
+
+  useEffect(() => {
+    if (blockId === currentBlockId) {
+      setProps((state) => ({
+        ...state,
+        ...currentPropertyControlValues,
+      }));
+    }
+  }, [currentPropertyControlValues, currentBlockId]);
+
   for (const x of Object.keys(componentItem.propertyControls)) {
     const definition = componentItem.propertyControls[x];
     if (definition["type"] === ControlType.ComponentInstance) {
@@ -30,20 +51,19 @@ const BlockLoader = ({ name, defaultProps = {} }) => {
       const innerDefaultProps = definition["defaultProps"][0];
 
       props[x] = (
-        <BlockLoader name={innerComponent} defaultProps={innerDefaultProps} />
+        <BlockLoader
+          blockType={innerComponent}
+          defaultProps={innerDefaultProps}
+        />
       );
     }
   }
 
-  const handleClick = () => {
+  const handleClick = (event) => {
+    event.stopPropagation();
     if (isInBlockAdmin) {
       // We are in admin/CMS mode, we let the app know which block we are
-      setCurrentBlock(
-        {
-          name,
-        },
-        props
-      );
+      setCurrentBlock(blockType, blockId, props);
     }
   };
 
@@ -52,6 +72,7 @@ const BlockLoader = ({ name, defaultProps = {} }) => {
       <Component
         {...props}
         isInBlockAdmin={isInBlockAdmin}
+        isBlockSelected={blockId === currentBlockId}
         onClick={handleClick}
       />
     </>

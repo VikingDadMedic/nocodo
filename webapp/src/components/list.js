@@ -2,45 +2,20 @@ import loadable from "@loadable/component";
 import { ControlType } from "property-controls";
 
 const componentsList = [
-  // {
-  //   name: "Button",
-  //   help:
-  //     "Use a Button to get user's confirmation, cancellation or other action.",
-  //   component: Loadable({
-  //     loader: () => import("components/Form/Button"),
-  //   }),
-  // },
-  // {
-  //   name: "Text input",
-  //   help: "Use a text input to let user share information like name, age, etc.",
-  //   component: Loadable({
-  //     loader: () => import("components/Form/Input")
-  //   }),
-  // },
-  // {
-  //   name: "Large text",
-  //   help:
-  //     "Use a large text (textarea) to let user share paragraphs of text easily.",
-  //   component: loadable(() => import("components/Form/Textarea")),
-  // },
-  // {
-  //   name: "Checkbox",
-  //   help:
-  //     "Use checkbox(es) to let user to select one or more of multiple options.",
-  //   component: loadable(() => import("components/Form/Checkbox")),
-  // },
-  // {
-  //   name: "Radio",
-  //   help: "Use radio(s) to let user select only one of multiple options.",
-  //   component: loadable(() => import("components/Form/Radio")),
-  // },
-  // {
-  //   name: "Options (dropdown, pills)",
-  //   help: "Use radio(s) to let user select only one of multiple options.",
-  //   component: loadable(() => import("components/Form/Radio")),
-  // },
+  {
+    name: "Button",
+    help:
+      "Use a Button to get user's confirmation, cancellation or other action.",
+    component: loadable(() => import("components/Form/Button")),
+    propertyControls: {
+      backgroundColor: {
+        type: ControlType.Enum,
+      },
+    },
+  },
   {
     name: "Text",
+    help: "A Text block can format and display text from CMS or user input.",
     component: loadable(() => import("components/Content/Text")),
     propertyControls: {
       tag: {
@@ -94,6 +69,7 @@ const componentsList = [
         defaultProps: [
           {
             tag: "p",
+            size: "base",
             className: "uppercase tracking-loose w-full",
             children: "What business are you?",
           },
@@ -105,8 +81,8 @@ const componentsList = [
         defaultProps: [
           {
             tag: "h1",
-            className: "my-4 font-bold leading-tight",
             size: "5xl",
+            className: "my-4 font-bold leading-tight",
             children: "Main Hero Message to sell yourself!",
           },
         ],
@@ -117,10 +93,21 @@ const componentsList = [
         defaultProps: [
           {
             tag: "p",
-            className: "leading-normal mb-8",
             size: "2xl",
+            className: "leading-normal mb-8",
             children:
               "Sub-hero message, not too long and not too short. Make it just right!",
+          },
+        ],
+      },
+      cta: {
+        type: ControlType.ComponentInstance,
+        allowedComponents: ["Button"],
+        defaultProps: [
+          {
+            backgroundColor: "white",
+            className:
+              "mx-auto lg:mx-0 hover:underline text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out",
           },
         ],
       },

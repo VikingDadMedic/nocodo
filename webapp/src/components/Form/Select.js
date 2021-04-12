@@ -2,9 +2,15 @@ import { useState } from "react";
 
 import Label from "./Label";
 
-const Inner = ({ name, options, getValue, getLabel, formData }) => {
+const Inner = ({ name, options, getValue, getLabel, formData, onChange }) => {
+  const handleChange = (event) => {
+    if (!!onChange) {
+      onChange(name, event.target.value);
+    }
+  };
+
   return (
-    <select name={name} value={formData[name]}>
+    <select name={name} value={formData[name]} onChange={handleChange}>
       {options.map((x) => (
         <option key={`opt-${getValue(x)}`} value={getValue(x)}>
           {getLabel(x)}
@@ -22,8 +28,6 @@ const Select = (props) => {
     label = undefined,
     isRequired = false,
   } = props;
-  const [filteredOptions, setFilteredOptions] = useState(options);
-
   const ErrorComponent = () => {
     if (!!formError && name in formError) {
       return (

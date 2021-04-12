@@ -3,6 +3,7 @@ import create from "zustand";
 const initialState = {
   isInBlockAdmin: false,
   currentBlockType: null,
+  currentBlockId: null,
   currentPropertyControlValues: {},
 };
 
@@ -24,10 +25,11 @@ const useAdmin = create((set, get) => ({
     }));
   },
 
-  setCurrentBlock: (widgetState, propertyControlValues = {}) => {
+  setCurrentBlock: (blockType, blockId, propertyControlValues = {}) => {
     set((state) => ({
       ...state,
-      currentBlockType: widgetState,
+      currentBlockType: blockType,
+      currentBlockId: blockId,
       currentPropertyControlValues: {
         ...propertyControlValues,
       },

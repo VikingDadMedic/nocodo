@@ -6,7 +6,7 @@ import Select from "components/Form/Select";
 import { useEffect, useState } from "react";
 import shallow from "zustand/shallow";
 
-const Controls = ({ propertyControls, formData }) => {
+const Controls = ({ propertyControls, formData, onChange }) => {
   const controls = [];
 
   for (const x of Object.keys(propertyControls)) {
@@ -38,6 +38,7 @@ const Controls = ({ propertyControls, formData }) => {
             formData={formData}
             getLabel={getLabel}
             getValue={getValue}
+            onChange={onChange}
           />
         </div>
       );
@@ -49,10 +50,15 @@ const Controls = ({ propertyControls, formData }) => {
 
 const BlockEditor = () => {
   const [formData, setFormData] = useState({});
-  const { currentBlockType, currentPropertyControlValues } = useAdmin(
+  const {
+    currentBlockType,
+    currentPropertyControlValues,
+    setPropertyControlValue,
+  } = useAdmin(
     (state) => ({
       currentBlockType: state.currentBlockType,
       currentPropertyControlValues: state.currentPropertyControlValues,
+      setPropertyControlValue: state.setPropertyControlValue,
     }),
     shallow
   );
@@ -61,26 +67,34 @@ const BlockEditor = () => {
     setFormData(currentPropertyControlValues);
   }, [currentPropertyControlValues]);
 
-  if (!!currentBlockType) {
-    const componentItem = componentsList.find(
-      (x) => x.name === currentBlockType.name
-    );
-
-    return (
-      <>
-        <h3 className="font-semibold text-xl leading-normal">
-          Block: &lt;{currentBlockType.name} /&gt;
-        </h3>
-
-        <Controls
-          propertyControls={componentItem.propertyControls}
-          formData={formData}
-        />
-      </>
-    );
-  } else {
+  if (!currentBlockType) {
     return <p>You have not selected any block to edit</p>;
   }
+
+  const handleChange = (name, value) => {
+    setFormData((state) => ({
+      ...state,
+      [name]: value,
+    }));
+
+    setPropertyControlValue(name, value);
+  };
+
+  const componentItem = componentsList.find((x) => x.name === currentBlockType);
+
+  return (
+    <>
+      <h3 className="font-semibold text-xl leading-normal">
+        Block: &lt;{currentBlockType} /&gt;
+      </h3>
+
+      <Controls
+        propertyControls={componentItem.propertyControls}
+        formData={formData}
+        onChange={handleChange}
+      />
+    </>
+  );
 };
 
 export default BlockEditor;
