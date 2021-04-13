@@ -7,6 +7,31 @@ import { useEffect, useState } from "react";
 
 let unsavedId = 2147483647;
 
+const getClassNames = ({
+  className = undefined,
+  fontSize = undefined,
+  color = undefined,
+  textAlign = undefined,
+  isInBlockAdmin = false,
+  isBlockSelected = false,
+}) => {
+  let innerClassName = className || "";
+  if (!!fontSize) {
+    innerClassName = `${innerClassName} text-${fontSize}`;
+  }
+  if (!!color) {
+    innerClassName = `${innerClassName} text-${color}`;
+  }
+  if (isInBlockAdmin) {
+    innerClassName = `${innerClassName} hover:outline-blue cursor-default`;
+  }
+  if (isBlockSelected) {
+    innerClassName = `${innerClassName} outline-blue`;
+  }
+
+  return innerClassName;
+};
+
 const BlockLoader = ({
   blockType,
   id = undefined,
@@ -71,6 +96,11 @@ const BlockLoader = ({
     <>
       <Component
         {...props}
+        className={getClassNames({
+          ...props,
+          isInBlockAdmin,
+          isBlockSelected: blockId === currentBlockId,
+        })}
         isInBlockAdmin={isInBlockAdmin}
         isBlockSelected={blockId === currentBlockId}
         onClick={handleClick}

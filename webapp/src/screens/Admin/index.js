@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 import useAdmin from "services/stores/admin";
-import BlockEditor from "components/Admin/BlockEditor";
+import BlockEditor from "components/Block/Editor";
 import BlockLoader from "components/Block/Loader";
 
 const Sidebar = () => {

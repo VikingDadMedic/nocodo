@@ -7,11 +7,13 @@ const componentsList = [
     help:
       "Use a Button to get user's confirmation, cancellation or other action.",
     component: loadable(() => import("components/Form/Button")),
-    propertyControls: {
-      backgroundColor: {
-        type: ControlType.Enum,
-      },
-    },
+    allowedClassBasedStyleControls: [
+      "fontSize",
+      "color",
+      "textAlign",
+      "backgroundColor",
+    ],
+    propertyControls: {},
   },
   {
     name: "Text",
@@ -83,10 +85,16 @@ const componentsList = [
             backgroundColor: "white",
             className:
               "mx-auto lg:mx-0 hover:underline text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out",
+            children: "Register!",
           },
         ],
       },
     },
+  },
+  {
+    name: "Hero3",
+    component: loadable(() => import("components/Content/Hero3")),
+    propertyControls: {},
   },
 ];
 

@@ -1,9 +1,7 @@
 import { useHistory } from "react-router-dom";
 
 const Button = ({
-  styleFunction = undefined,
-  theme = undefined,
-  size = undefined,
+  className = undefined,
   icon = undefined,
   isDisabled = false,
   to = undefined,
@@ -35,15 +33,6 @@ const Button = ({
       history.push(to);
     };
   }
-  const className = !!styleFunction
-    ? styleFunction({
-        theme,
-        size,
-        hasIcon: !!icon,
-        isLink: !onClick && !!to,
-        isDisabled,
-      })
-    : undefined;
 
   return (
     <button className={className} onClick={handleClick}>
