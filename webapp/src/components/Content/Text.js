@@ -3,7 +3,7 @@ import { createElement } from "react";
 const Text = ({
   tag = "p",
   className = undefined,
-  size = undefined,
+  fontSize = undefined,
   color = undefined,
   align = undefined,
   text = undefined,
@@ -16,8 +16,8 @@ const Text = ({
     return null;
   }
   let innerClassName = className || "";
-  if (!!size) {
-    innerClassName = `${innerClassName} text-${size}`;
+  if (!!fontSize) {
+    innerClassName = `${innerClassName} text-${fontSize}`;
   }
   if (!!color) {
     innerClassName = `${innerClassName} text-${color}`;

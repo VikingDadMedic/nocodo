@@ -17,6 +17,7 @@ const componentsList = [
     name: "Text",
     help: "A Text block can format and display text from CMS or user input.",
     component: loadable(() => import("components/Content/Text")),
+    allowedClassBasedStyleControls: ["fontSize", "color", "textAlign"],
     propertyControls: {
       tag: {
         type: ControlType.Enum,
@@ -31,32 +32,6 @@ const componentsList = [
           "Paragraph",
         ],
       },
-      size: {
-        type: ControlType.Enum,
-        options: [
-          "xs",
-          "sm",
-          "base",
-          "lg",
-          "xl",
-          "2xl",
-          "3xl",
-          "4xl",
-          "5xl",
-          "6xl",
-          "7xl",
-          "8xl",
-          "9xl",
-        ],
-      },
-      color: {
-        type: ControlType.Enum,
-        options: [],
-      },
-      align: {
-        type: ControlType.Enum,
-        options: ["left", "center", "right", "justify"],
-      },
     },
   },
   {
@@ -69,7 +44,7 @@ const componentsList = [
         defaultProps: [
           {
             tag: "p",
-            size: "base",
+            fontSize: "base",
             className: "uppercase tracking-loose w-full",
             children: "What business are you?",
           },
@@ -81,7 +56,7 @@ const componentsList = [
         defaultProps: [
           {
             tag: "h1",
-            size: "5xl",
+            fontSize: "5xl",
             className: "my-4 font-bold leading-tight",
             children: "Main Hero Message to sell yourself!",
           },
@@ -93,7 +68,7 @@ const componentsList = [
         defaultProps: [
           {
             tag: "p",
-            size: "2xl",
+            fontSize: "2xl",
             className: "leading-normal mb-8",
             children:
               "Sub-hero message, not too long and not too short. Make it just right!",

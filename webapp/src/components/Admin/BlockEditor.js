@@ -5,12 +5,29 @@ import useAdmin from "services/stores/admin";
 import Select from "components/Form/Select";
 import { useEffect, useState } from "react";
 import shallow from "zustand/shallow";
+import { classBasedStyleControls } from "./classBasedStyleControls";
 
-const Controls = ({ propertyControls, formData, onChange }) => {
+const Controls = ({
+  propertyControls,
+  formData,
+  onChange,
+  allowedClassBasedStyleControls = undefined,
+}) => {
   const controls = [];
+  let allControls = {
+    ...propertyControls,
+  };
+  if (!!allowedClassBasedStyleControls) {
+    allControls = {
+      ...allControls,
+      ...allowedClassBasedStyleControls.map((x) =>
+        x in classBasedStyleControls ? classBasedStyleControls[x] : undefined
+      ),
+    };
+  }
 
-  for (const x of Object.keys(propertyControls)) {
-    const definition = propertyControls[x];
+  for (const x of Object.keys(allControls)) {
+    const definition = allControls[x];
     if (definition["type"] === ControlType.Enum) {
       const options = definition["options"].reduce(
         (acc, item, i) => [
@@ -30,7 +47,7 @@ const Controls = ({ propertyControls, formData, onChange }) => {
       const getLabel = (row) => row.label;
 
       controls.push(
-        <div key={`ctrl-${x}`} className="my-6">
+        <div key={`ctrl-${x}`} className="inline-block mx-4">
           <Select
             label={x}
             name={x}
@@ -84,15 +101,20 @@ const BlockEditor = () => {
 
   return (
     <>
-      <h3 className="font-semibold text-xl leading-normal">
+      <h6 className="mb-2 text-xs uppercase font-semibold text-gray-500">
         Block: &lt;{currentBlockType} /&gt;
-      </h3>
+      </h6>
 
-      <Controls
-        propertyControls={componentItem.propertyControls}
-        formData={formData}
-        onChange={handleChange}
-      />
+      <div className="flex">
+        <Controls
+          allowedClassBasedStyleControls={
+            componentItem.allowedClassBasedStyleControls
+          }
+          propertyControls={componentItem.propertyControls}
+          formData={formData}
+          onChange={handleChange}
+        />
+      </div>
     </>
   );
 };

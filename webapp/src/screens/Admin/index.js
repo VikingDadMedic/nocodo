@@ -9,12 +9,14 @@ const Sidebar = () => {
   const currentBlockType = useAdmin((state) => state.currentBlockType);
 
   return (
-    <div className="fixed z-50 top-0 right-0 h-screen w-64 bg-gray-200 border-l-2 border-gray-300 p-2">
-      <h6 className="mb-2 text-xs uppercase font-semibold text-gray-500">
-        Click on a Block to edit
-      </h6>
-
-      {!!currentBlockType && <BlockEditor />}
+    <div className="fixed z-50 top-0 left-0 h-24 w-full bg-gray-200 border-l-2 border-gray-300 p-2">
+      {!!currentBlockType ? (
+        <BlockEditor />
+      ) : (
+        <h6 className="mb-2 text-xs uppercase font-semibold text-gray-500">
+          Click on a Block to edit
+        </h6>
+      )}
     </div>
   );
 };
