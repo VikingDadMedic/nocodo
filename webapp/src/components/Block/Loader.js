@@ -16,8 +16,19 @@ const getClassNames = ({
   fontStyle = undefined,
   fontWeight = undefined,
   fontvariantNumeric = undefined,
+  letterSpacing = undefined,
+  lineHeight = undefined,
+  liststyleType = undefined,
+  liststylePosition = undefined,
   textColor = undefined,
   textAlign = undefined,
+  textOpacity = undefined,
+  textDecoration = undefined,
+  textTransform = undefined,
+  textOverflow = undefined,
+  verticalAlign = undefined,
+  whiteSpace = undefined,
+  wordBreak = undefined,
   isInBlockAdmin = false,
   isBlockSelected = false,
 }) => {
@@ -40,6 +51,18 @@ const getClassNames = ({
   if (!!fontvariantNumeric) {
     innerClassName = `${innerClassName} text-${fontvariantNumeric}`;
   }
+  if (!!letterSpacing) {
+    innerClassName = `${innerClassName} text-${letterSpacing}`;
+  }
+  if (!!lineHeight) {
+    innerClassName = `${innerClassName} text-${lineHeight}`;
+  }
+  if (!!liststyleType) {
+    innerClassName = `${innerClassName} text-${liststyleType}`;
+  }
+  if (!!liststylePosition) {
+    innerClassName = `${innerClassName} text-${liststylePosition}`;
+  }
   if (!!textColor) {
     innerClassName = `${innerClassName} text-${textColor}`;
   }
@@ -52,7 +75,27 @@ const getClassNames = ({
   if (!!textAlign) {
     innerClassName = `${innerClassName} text-${textAlign}`;
   }
-
+  if (!!textOpacity) {
+    innerClassName = `${innerClassName} text-${textOpacity}`;
+  }
+  if (!!textDecoration) {
+    innerClassName = `${innerClassName} text-${textDecoration}`;
+  }
+  if (!!textTransform) {
+    innerClassName = `${innerClassName} text-${textTransform}`;
+  }
+  if (!!textOverflow) {
+    innerClassName = `${innerClassName} text-${textOverflow}`;
+  }
+  if (!!verticalAlign) {
+    innerClassName = `${innerClassName} text-${verticalAlign}`;
+  }
+  if (!!whiteSpace) {
+    innerClassName = `${innerClassName} text-${whiteSpace}`;
+  }
+  if (!!wordBreak) {
+    innerClassName = `${innerClassName} text-${wordBreak}`;
+  }
   return innerClassName;
 };
 

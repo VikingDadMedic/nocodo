@@ -72,6 +72,39 @@ export const classBasedStyleControls = {
       "stacked-fractions",
     ],
   },
+  letterSpacing: {
+    type: ControlType.Enum,
+    options: ["tighter", "tight", "normal", "wide", "wider", "widest"],
+  },
+  lineHeight: {
+    type: ControlType.Enum,
+    options: [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "none",
+      "tight",
+      "snug",
+      "normal",
+      "relaxed",
+      "loose",
+    ],
+  },
+  liststyleType: {
+    type: ControlType.Enum,
+    options: ["none", "disc", "decimal"],
+  },
+  liststylePosition: {
+    type: ControlType.Enum,
+    options: ["none", "disc", "decimal"],
+  },
   textColor: {
     type: ControlType.Enum,
     options: [
@@ -161,12 +194,54 @@ export const classBasedStyleControls = {
       "pink-900",
     ],
   },
-
   textAlign: {
     type: ControlType.Enum,
     options: ["left", "center", "right", "justify"],
   },
-
+  textOpacity: {
+    type: ControlType.Enum,
+    options: [
+      "0",
+      "5",
+      "10",
+      "20",
+      "25",
+      "30",
+      "40",
+      "50",
+      "60",
+      "70",
+      "75",
+      "80",
+      "90",
+      "95",
+      "100",
+    ],
+  },
+  textDecoration: {
+    type: ControlType.Enum,
+    options: ["underline", "line-through", "no-underline"],
+  },
+  textTransform: {
+    type: ControlType.Enum,
+    options: ["uppercase", "lowercase", "capitalize", "normal-case"],
+  },
+  textOverflow: {
+    type: ControlType.Enum,
+    options: ["truncate", "overflow-ellipsis", "overflow-clip"],
+  },
+  verticalAlign: {
+    type: ControlType.Enum,
+    options: ["baseline", "top", "middle", "bottom", "text-top", "text-bottom"],
+  },
+  whiteSpace: {
+    type: ControlType.Enum,
+    options: ["normal", "nowrap", "pre", "pre-line", "pre-wrap"],
+  },
+  wordBreak: {
+    type: ControlType.Enum,
+    options: ["normal", "words", "all"],
+  },
   backgroundColor: {
     type: ControlType.Enum,
     options: [],
