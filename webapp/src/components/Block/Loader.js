@@ -24,10 +24,13 @@ const getClassNames = ({
     innerClassName = `${innerClassName} text-${color}`;
   }
   if (isInBlockAdmin) {
-    innerClassName = `${innerClassName} hover:outline-blue cursor-default`;
+    innerClassName = `${innerClassName} hover:outline-blue focus:outline-blue cursor-default`;
   }
   if (isBlockSelected) {
     innerClassName = `${innerClassName} outline-blue`;
+  }
+  if (!!textAlign) {
+    innerClassName = `${innerClassName} text-${textAlign}`;
   }
 
   return innerClassName;

@@ -22,11 +22,10 @@ const useBlockEdit = create((set, get) => ({
 
   setPropertyControlValue: (blockId, name, value) => {
     set((state) => ({
-      ...state,
-
       blocks: {
         [blockId]: {
-          ...state,
+          ...state.blocks[blockId],
+
           propertyControlValues: {
             ...state[blockId],
             [name]: value,

@@ -12,13 +12,11 @@ const Text = ({
   }
   const innerChildren = children || text;
 
-  const handleClick = !!onClick ? onClick : undefined;
-
   return createElement(
     tag,
     {
       className,
-      onClick: handleClick,
+      onClick,
     },
     innerChildren
   );

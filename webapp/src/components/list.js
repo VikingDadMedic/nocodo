@@ -37,6 +37,16 @@ const componentsList = [
     },
   },
   {
+    name: "Image",
+    help: "Image block",
+    component: loadable(() => import("components/Content/Image")),
+    propertyControls: {
+      src: {
+        type: ControlType.String,
+      },
+    },
+  },
+  {
     name: "Hero",
     component: loadable(() => import("components/Content/Hero")),
     propertyControls: {

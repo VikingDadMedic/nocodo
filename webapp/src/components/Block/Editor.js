@@ -9,7 +9,6 @@ import useAdmin from "services/stores/admin";
 const BlockEditor = () => {
   const [formData, setFormData] = useState({});
   const blockId = useAdmin((state) => state.blockId);
-
   const { currentBlock, setPropertyControlValue } = useBlockEdit(
     (state) => ({
       currentBlock: blockId in state.blocks ? state.blocks[blockId] : undefined,
