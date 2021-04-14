@@ -2,29 +2,29 @@ import { useEffect, useState } from "react";
 import shallow from "zustand/shallow";
 
 import componentsList from "components/list";
-import useAdmin from "services/stores/admin";
 import BlockControls from "./Controls";
+import useBlockEdit from "services/stores/blockEdit";
+import useAdmin from "services/stores/admin";
 
 const BlockEditor = () => {
   const [formData, setFormData] = useState({});
-  const {
-    currentBlockType,
-    currentPropertyControlValues,
-    setPropertyControlValue,
-  } = useAdmin(
+  const blockId = useAdmin((state) => state.blockId);
+
+  const { currentBlock, setPropertyControlValue } = useBlockEdit(
     (state) => ({
-      currentBlockType: state.currentBlockType,
-      currentPropertyControlValues: state.currentPropertyControlValues,
+      currentBlock: blockId in state.blocks ? state.blocks[blockId] : undefined,
       setPropertyControlValue: state.setPropertyControlValue,
     }),
     shallow
   );
 
   useEffect(() => {
-    setFormData(currentPropertyControlValues);
-  }, [currentPropertyControlValues]);
+    if (currentBlock !== undefined) {
+      setFormData(currentBlock.propertyControlValues);
+    }
+  }, [currentBlock]);
 
-  if (!currentBlockType) {
+  if (!currentBlock) {
     return <p>You have not selected any block to edit</p>;
   }
 
@@ -34,15 +34,17 @@ const BlockEditor = () => {
       [name]: value,
     }));
 
-    setPropertyControlValue(name, value);
+    setPropertyControlValue(blockId, name, value);
   };
 
-  const componentItem = componentsList.find((x) => x.name === currentBlockType);
+  const componentItem = componentsList.find(
+    (x) => x.name === currentBlock.blockType
+  );
 
   return (
     <>
       <h6 className="mb-2 text-xs uppercase font-semibold text-gray-500">
-        Block: &lt;{currentBlockType} /&gt;
+        Block: &lt;{currentBlock.blockType} /&gt;
       </h6>
 
       <div className="flex">

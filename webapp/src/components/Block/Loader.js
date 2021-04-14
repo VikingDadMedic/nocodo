@@ -1,9 +1,10 @@
+import { useEffect, useState } from "react";
 import { ControlType } from "property-controls";
 import shallow from "zustand/shallow";
 
 import componentsList from "components/list";
 import useAdmin from "services/stores/admin";
-import { useEffect, useState } from "react";
+import useBlockEdit from "services/stores/blockEdit";
 
 let unsavedId = 2147483647;
 
@@ -32,42 +33,85 @@ const getClassNames = ({
   return innerClassName;
 };
 
-const BlockLoader = ({
-  blockType,
-  id = undefined,
-  defaultProps = {},
-  savedProps,
-}) => {
-  const componentItem = componentsList.find((x) => x.name === blockType);
+const NormalBlockLoader = ({ componentItem, defaultProps = {} }) => {
   const Component = componentItem.component;
-  const {
-    isInBlockAdmin,
-    setCurrentBlock,
-    currentBlockId,
-    currentPropertyControlValues,
-  } = useAdmin(
-    (state) => ({
-      isInBlockAdmin: state.isInBlockAdmin,
-      setCurrentBlock: state.setCurrentBlock,
-      currentBlockId: state.currentBlockId,
-      currentPropertyControlValues: state.currentPropertyControlValues,
-    }),
-    shallow
+
+  return (
+    <Component
+      {...defaultProps}
+      className={getClassNames({
+        ...defaultProps,
+        isInBlockAdmin: false,
+        isBlockSelected: false,
+      })}
+      isInBlockAdmin={false}
+      isBlockSelected={false}
+    />
+  );
+};
+
+const InAdminBlockLoader = ({
+  id,
+  blockType,
+  componentItem,
+  defaultProps = {},
+}) => {
+  const Component = componentItem.component;
+  const setEditingBlock = useAdmin((state) => state.setEditingBlock);
+  const currentBlock = useBlockEdit((state) =>
+    id in state.blocks ? state.blocks[id] : undefined
   );
 
-  const [blockId] = useState(!!id ? id : ++unsavedId);
   const [props, setProps] = useState({
     ...defaultProps,
   });
 
   useEffect(() => {
-    if (blockId === currentBlockId) {
+    if (currentBlock !== undefined) {
       setProps((state) => ({
         ...state,
-        ...currentPropertyControlValues,
+        ...currentBlock.propertyControlValues,
       }));
     }
-  }, [currentPropertyControlValues, currentBlockId]);
+  }, [currentBlock]);
+
+  const handleClick = (event) => {
+    event.stopPropagation();
+    // We are in admin/CMS mode, we let the app know which block we are
+    setEditingBlock(id, blockType, props);
+  };
+
+  return (
+    <>
+      <Component
+        {...props}
+        className={getClassNames({
+          ...props,
+          isInBlockAdmin: true,
+          isBlockSelected: currentBlock !== undefined,
+        })}
+        isInBlockAdmin={true}
+        isBlockSelected={currentBlock !== undefined}
+        onClick={handleClick}
+      />
+    </>
+  );
+};
+
+const BlockLoader = ({ blockType, id = undefined, defaultProps = {} }) => {
+  const componentItem = componentsList.find((x) => x.name === blockType);
+  const { isInBlockAdmin, currentBlockId } = useAdmin(
+    (state) => ({
+      isInBlockAdmin: state.isInBlockAdmin,
+      currentBlockId: state.blockId,
+    }),
+    shallow
+  );
+  const [blockId] = useState(!!id ? id : ++unsavedId);
+
+  const props = {
+    ...defaultProps,
+  };
 
   for (const x of Object.keys(componentItem.propertyControls)) {
     const definition = componentItem.propertyControls[x];
@@ -84,29 +128,25 @@ const BlockLoader = ({
     }
   }
 
-  const handleClick = (event) => {
-    event.stopPropagation();
-    if (isInBlockAdmin) {
-      // We are in admin/CMS mode, we let the app know which block we are
-      setCurrentBlock(blockType, blockId, props);
-    }
-  };
-
-  return (
-    <>
-      <Component
-        {...props}
-        className={getClassNames({
-          ...props,
-          isInBlockAdmin,
-          isBlockSelected: blockId === currentBlockId,
-        })}
-        isInBlockAdmin={isInBlockAdmin}
-        isBlockSelected={blockId === currentBlockId}
-        onClick={handleClick}
+  if (isInBlockAdmin) {
+    return (
+      <InAdminBlockLoader
+        id={blockId}
+        blockType={blockType}
+        componentItem={componentItem}
+        defaultProps={props}
       />
-    </>
-  );
+    );
+  } else {
+    return (
+      <NormalBlockLoader
+        id={blockId}
+        blockType={blockType}
+        componentItem={componentItem}
+        defaultProps={props}
+      />
+    );
+  }
 };
 
 export default BlockLoader;

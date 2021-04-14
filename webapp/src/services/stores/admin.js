@@ -1,10 +1,9 @@
 import create from "zustand";
+import useBlockEdit from "./blockEdit";
 
 const initialState = {
   isInBlockAdmin: false,
-  currentBlockType: null,
-  currentBlockId: null,
-  currentPropertyControlValues: {},
+  blockId: null,
 };
 
 const useAdmin = create((set, get) => ({
@@ -14,45 +13,25 @@ const useAdmin = create((set, get) => ({
     set((state) => ({
       ...state,
       isInBlockAdmin: value !== undefined ? value : !state.isInBlockAdmin,
-      currentBlockType:
-        value === false || (value === undefined && state.isInBlockAdmin)
-          ? null
-          : state.currentBlockType,
-      currentPropertyControlValues:
-        value === false || (value === undefined && state.isInBlockAdmin)
-          ? {}
-          : state.currentPropertyControlValues,
     }));
+
+    useBlockEdit.setState({});
   },
 
-  setCurrentBlock: (blockType, blockId, propertyControlValues = {}) => {
+  setEditingBlock: (blockId, blockType, propertyControlValues) => {
     set((state) => ({
       ...state,
-      currentBlockType: blockType,
-      currentBlockId: blockId,
-      currentPropertyControlValues: {
-        ...propertyControlValues,
-      },
+      blockId,
     }));
-  },
 
-  setPropertyControlValues: (mapping) => {
-    set((state) => ({
-      ...state,
-      currentPropertyControlValues: {
-        ...mapping,
+    useBlockEdit.setState({
+      blocks: {
+        [blockId]: {
+          blockType,
+          propertyControlValues,
+        },
       },
-    }));
-  },
-
-  setPropertyControlValue: (name, value) => {
-    set((state) => ({
-      ...state,
-      currentPropertyControlValues: {
-        ...state.currentPropertyControlValues,
-        [name]: value,
-      },
-    }));
+    });
   },
 }));
 
