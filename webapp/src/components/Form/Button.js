@@ -4,7 +4,7 @@ const Button = ({
   className = undefined,
   icon = undefined,
   isDisabled = false,
-  to = undefined,
+  linkTo = undefined,
   onClick = undefined,
   children,
 }) => {
@@ -28,9 +28,9 @@ const Button = ({
     handleClick = undefined;
   } else if (!!onClick) {
     handleClick = onClick;
-  } else if (!!to) {
+  } else if (!!linkTo) {
     handleClick = () => {
-      history.push(to);
+      history.push(linkTo);
     };
   }
 
