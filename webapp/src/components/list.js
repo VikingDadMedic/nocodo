@@ -9,7 +9,12 @@ const componentsList = [
     component: loadable(() => import("components/Form/Button")),
     allowedClassBasedStyleControls: [
       "fontSize",
-      "color",
+      "fontFamily",
+      "fontSmoothing",
+      "fontStyle",
+      "fontWeight",
+      "fontvariantNumeric",
+      "textColor",
       "textAlign",
       "backgroundColor",
     ],
@@ -19,7 +24,16 @@ const componentsList = [
     name: "Text",
     help: "A Text block can format and display text from CMS or user input.",
     component: loadable(() => import("components/Content/Text")),
-    allowedClassBasedStyleControls: ["fontSize", "color", "textAlign"],
+    allowedClassBasedStyleControls: [
+      "fontSize",
+      "fontFamily",
+      "fontSmoothing",
+      "fontStyle",
+      "fontWeight",
+      "fontvariantNumeric",
+      "textColor",
+      "textAlign",
+    ],
     propertyControls: {
       tag: {
         type: ControlType.Enum,

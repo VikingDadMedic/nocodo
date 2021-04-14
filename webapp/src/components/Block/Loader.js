@@ -11,7 +11,12 @@ let unsavedId = 2147483647;
 const getClassNames = ({
   className = undefined,
   fontSize = undefined,
-  color = undefined,
+  fontFamily = undefined,
+  fontSmoothing = undefined,
+  fontStyle = undefined,
+  fontWeight = undefined,
+  fontvariantNumeric = undefined,
+  textColor = undefined,
   textAlign = undefined,
   isInBlockAdmin = false,
   isBlockSelected = false,
@@ -20,8 +25,23 @@ const getClassNames = ({
   if (!!fontSize) {
     innerClassName = `${innerClassName} text-${fontSize}`;
   }
-  if (!!color) {
-    innerClassName = `${innerClassName} text-${color}`;
+  if (!!fontFamily) {
+    innerClassName = `${innerClassName} text-${fontFamily}`;
+  }
+  if (!!fontSmoothing) {
+    innerClassName = `${innerClassName} text-${fontSmoothing}`;
+  }
+  if (!!fontStyle) {
+    innerClassName = `${innerClassName} text-${fontStyle}`;
+  }
+  if (!!fontWeight) {
+    innerClassName = `${innerClassName} text-${fontWeight}`;
+  }
+  if (!!fontvariantNumeric) {
+    innerClassName = `${innerClassName} text-${fontvariantNumeric}`;
+  }
+  if (!!textColor) {
+    innerClassName = `${innerClassName} text-${textColor}`;
   }
   if (isInBlockAdmin) {
     innerClassName = `${innerClassName} hover:outline-blue focus:outline-blue cursor-default`;
