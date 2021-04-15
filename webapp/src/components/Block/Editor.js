@@ -46,7 +46,7 @@ const BlockEditor = () => {
         Block: &lt;{currentBlock.blockType} /&gt;
       </h6>
 
-      <div className="flex">
+      <div className="">
         <BlockControls
           allowedClassBasedStyleControls={
             componentItem.allowedClassBasedStyleControls

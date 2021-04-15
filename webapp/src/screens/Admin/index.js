@@ -9,7 +9,7 @@ const EditorBar = () => {
   const blockId = useAdmin((state) => state.blockId);
 
   return (
-    <div className="fixed z-50 top-0 left-0 h-24 w-full bg-gray-200 border-l-2 border-gray-300 p-2">
+    <div className="fixed z-50 top-0 left-0 w-full bg-gray-200 border-l-2 border-gray-300 p-2">
       {!!blockId ? (
         <BlockEditor />
       ) : (
