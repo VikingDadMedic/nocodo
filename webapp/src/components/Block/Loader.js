@@ -15,11 +15,11 @@ const getClassNames = ({
   fontSmoothing = undefined,
   fontStyle = undefined,
   fontWeight = undefined,
-  fontvariantNumeric = undefined,
+  fontVariantNumeric = undefined,
   letterSpacing = undefined,
   lineHeight = undefined,
-  liststyleType = undefined,
-  liststylePosition = undefined,
+  listStyleType = undefined,
+  listStylePosition = undefined,
   textColor = undefined,
   textAlign = undefined,
   textOpacity = undefined,
@@ -37,31 +37,31 @@ const getClassNames = ({
     innerClassName = `${innerClassName} text-${fontSize}`;
   }
   if (!!fontFamily) {
-    innerClassName = `${innerClassName} text-${fontFamily}`;
+    innerClassName = `${innerClassName} font-${fontFamily}`;
   }
   if (!!fontSmoothing) {
-    innerClassName = `${innerClassName} text-${fontSmoothing}`;
+    innerClassName = `${innerClassName} ${fontSmoothing}`;
   }
   if (!!fontStyle) {
-    innerClassName = `${innerClassName} text-${fontStyle}`;
+    innerClassName = `${innerClassName} ${fontStyle}`;
   }
   if (!!fontWeight) {
-    innerClassName = `${innerClassName} text-${fontWeight}`;
+    innerClassName = `${innerClassName} font-${fontWeight}`;
   }
-  if (!!fontvariantNumeric) {
-    innerClassName = `${innerClassName} text-${fontvariantNumeric}`;
+  if (!!fontVariantNumeric) {
+    innerClassName = `${innerClassName} ${fontVariantNumeric}`;
   }
   if (!!letterSpacing) {
-    innerClassName = `${innerClassName} text-${letterSpacing}`;
+    innerClassName = `${innerClassName} tracking-${letterSpacing}`;
   }
   if (!!lineHeight) {
-    innerClassName = `${innerClassName} text-${lineHeight}`;
+    innerClassName = `${innerClassName} leading-${lineHeight}`;
   }
-  if (!!liststyleType) {
-    innerClassName = `${innerClassName} text-${liststyleType}`;
+  if (!!listStyleType) {
+    innerClassName = `${innerClassName} list-${listStyleType}`;
   }
-  if (!!liststylePosition) {
-    innerClassName = `${innerClassName} text-${liststylePosition}`;
+  if (!!listStylePosition) {
+    innerClassName = `${innerClassName} list-${listStylePosition}`;
   }
   if (!!textColor) {
     innerClassName = `${innerClassName} text-${textColor}`;
@@ -79,22 +79,22 @@ const getClassNames = ({
     innerClassName = `${innerClassName} text-${textOpacity}`;
   }
   if (!!textDecoration) {
-    innerClassName = `${innerClassName} text-${textDecoration}`;
+    innerClassName = `${innerClassName} ${textDecoration}`;
   }
   if (!!textTransform) {
-    innerClassName = `${innerClassName} text-${textTransform}`;
+    innerClassName = `${innerClassName} ${textTransform}`;
   }
   if (!!textOverflow) {
-    innerClassName = `${innerClassName} text-${textOverflow}`;
+    innerClassName = `${innerClassName} ${textOverflow}`;
   }
   if (!!verticalAlign) {
-    innerClassName = `${innerClassName} text-${verticalAlign}`;
+    innerClassName = `${innerClassName} align-${verticalAlign}`;
   }
   if (!!whiteSpace) {
-    innerClassName = `${innerClassName} text-${whiteSpace}`;
+    innerClassName = `${innerClassName} whitespace-${whiteSpace}`;
   }
   if (!!wordBreak) {
-    innerClassName = `${innerClassName} text-${wordBreak}`;
+    innerClassName = `${innerClassName} break-${wordBreak}`;
   }
   return innerClassName;
 };

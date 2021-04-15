@@ -58,7 +58,7 @@ export const classBasedStyleControls = {
       "black",
     ],
   },
-  fontvariantNumeric: {
+  fontVariantNumeric: {
     type: ControlType.Enum,
     options: [
       "normal-nums",
@@ -97,11 +97,11 @@ export const classBasedStyleControls = {
       "loose",
     ],
   },
-  liststyleType: {
+  listStyleType: {
     type: ControlType.Enum,
     options: ["none", "disc", "decimal"],
   },
-  liststylePosition: {
+  listStylePosition: {
     type: ControlType.Enum,
     options: ["none", "disc", "decimal"],
   },
