@@ -12,15 +12,12 @@ user = Table(
     metadata,
 
     Column("id", Integer, primary_key=True),
-    Column("email", String(length=200), nullable=False, unique=True),
+
+    # This is a unique identifier for each user. It can be an actual username or an email
+    Column("username", String(length=200), nullable=False, unique=True),
     Column("hashed_password", String(length=64), nullable=True),
 
-    Column("first_name", String(length=60), nullable=True),
-    Column("last_name", String(length=60), nullable=True),
-
     Column("is_email_verified", Boolean, nullable=False, default=False),
-    Column("is_phone_verified", Boolean, nullable=False, default=False),
-
     Column("created_at", DateTime, nullable=False, default=datetime.utcnow)
 )
 
@@ -50,13 +47,17 @@ forgot_password_token = Table(
     Column("created_at", DateTime, nullable=False, default=datetime.utcnow)
 )
 
-
-terms_agreement = Table(
-    "user_terms_agreement",
+"""
+social_authentication = Table(
+    "user_social_authentication",
     metadata,
 
+    Column("id", Integer, primary_key=True),
     Column("user_id", ForeignKey("user_user.id"), nullable=False),
-    Column("terms_version", String(length=20), nullable=False),
+
+    Column("provider", String(length=60), nullable=False),
+    Column("identifier", String(length=200), nullable=False),
 
     Column("created_at", DateTime, nullable=False, default=datetime.utcnow)
 )
+"""
