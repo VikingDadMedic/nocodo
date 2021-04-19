@@ -17,7 +17,7 @@ user = Table(
     Column("username", String(length=200), nullable=False, unique=True),
     Column("hashed_password", String(length=64), nullable=True),
 
-    Column("is_email_verified", Boolean, nullable=False, default=False),
+    Column("is_account_verified", Boolean, nullable=False, default=False),
     Column("created_at", DateTime, nullable=False, default=datetime.utcnow)
 )
 

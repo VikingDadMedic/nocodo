@@ -27,7 +27,7 @@ async def register_user(
         db: database = Depends(get_database)
 ) -> Mapping:
     values = {
-        "email": user_data.email,
+        "email": user_data.username,
         "hashed_password": crypto_context.hash(user_data.password)
     }
     user_id = await db.execute(query=user.insert(), values=values)

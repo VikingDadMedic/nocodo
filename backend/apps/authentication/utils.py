@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 from typing import Optional
 from fastapi import Depends, HTTPException
-from jose import jwt, JWTError
+import jwt
 from starlette import status
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
+# import orjson as json
 
 from apps.user.models import user
 from apps.user.schema import User
@@ -17,6 +18,29 @@ crypto_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
+async def _current_user(
+        token: str,
+        db: database = Depends(get_database)
+) -> Optional[User]:
+    if token is None:
+        return None
+
+    payload = jwt.decode(token, settings.public_key, algorithms=[settings.jwt_hash_algorithm])
+    username: str = payload.get("username")
+    if username is None:
+        return None
+    token_data = TokenData(username=username)
+
+    query = user.select().where(
+        user.c.username == token_data.username
+    )
+    result = await db.fetch_one(query=query)
+
+    if result is None:
+        return None
+    return User(**result)
+
+
 async def get_current_user(
         token: str = Depends(oauth2_scheme),
         db: database = Depends(get_database)
@@ -26,22 +50,10 @@ async def get_current_user(
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    try:
-        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.password_hash_algorithm])
-        username: str = payload.get("username")
-        if username is None:
-            raise credentials_exception
-    except JWTError as e:
+    _user = await _current_user(token=token, db=db)
+    if _user is None:
         raise credentials_exception
-
-    query = user.select().where(
-        user.c.email == username
-    )
-    result = await db.fetch_one(query=query)
-
-    if result is None:
-        raise credentials_exception
-    return User(**result)
+    return _user
 
 
 async def get_optional_current_user(
@@ -50,23 +62,8 @@ async def get_optional_current_user(
 ) -> Optional[User]:
     if token is None:
         return None
-    try:
-        payload = jwt.decode(token, settings.secret_key, algorithms=[settings.password_hash_algorithm])
-        username: str = payload.get("username")
-        if username is None:
-            return None
-        token_data = TokenData(username=username)
-    except JWTError:
-        return None
-
-    query = user.select().where(
-        user.c.email == token_data.username
-    )
-    result = await db.fetch_one(query=query)
-
-    if result is None:
-        return None
-    return User(**result)
+    _user = await _current_user(token=token, db=db)
+    return _user
 
 
 async def authenticate_user(
@@ -75,7 +72,7 @@ async def authenticate_user(
         db: database
 ) -> user:
     query = user.select().where(
-        user.c.email == username
+        user.c.username == username
     )
     result = await db.fetch_one(query=query)
     if not result:
@@ -110,17 +107,11 @@ def get_password_hash(password):
 
 def create_access_token(
         data: dict,
-        expires_delta: Optional[timedelta] = None
 ) -> str:
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(
         to_encode,
         settings.secret_key,
-        algorithm=settings.password_hash_algorithm
+        algorithm=settings.jwt_hash_algorithm
     )
     return encoded_jwt
