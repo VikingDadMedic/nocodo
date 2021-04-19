@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
 
 const Button = ({
+  name,
   className = undefined,
   icon = undefined,
   isDisabled = false,
@@ -9,6 +10,7 @@ const Button = ({
   children,
 }) => {
   const history = useHistory();
+  let innerClassName = `bg-white px-2 rounded-sm ${className}`;
 
   if (icon !== undefined) {
     if (children === undefined) {
@@ -27,7 +29,9 @@ const Button = ({
   if (isDisabled) {
     handleClick = undefined;
   } else if (!!onClick) {
-    handleClick = onClick;
+    handleClick = () => {
+      onClick(name);
+    };
   } else if (!!linkTo) {
     handleClick = () => {
       history.push(linkTo);
@@ -35,7 +39,7 @@ const Button = ({
   }
 
   return (
-    <button className={className} onClick={handleClick}>
+    <button className={innerClassName} onClick={handleClick}>
       {children}
     </button>
   );

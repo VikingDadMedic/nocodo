@@ -2,6 +2,7 @@ import { ControlType } from "property-controls";
 
 import Select from "components/Form/Select";
 import { classBasedStyleControls } from "./classBasedStyleControls";
+import Button from "components/Form/Button";
 
 const BlockControls = ({
   propertyControls,
@@ -28,6 +29,13 @@ const BlockControls = ({
       ),
     };
   }
+
+  const handleToggle = (name, value) => {
+    console.log(name, formData[name]);
+    if (name === "fontStyle") {
+      onChange(name, !formData[name]);
+    }
+  };
 
   for (const x of Object.keys(allControls)) {
     const definition = allControls[x];
@@ -60,6 +68,14 @@ const BlockControls = ({
             getValue={getValue}
             onChange={onChange}
           />
+        </div>
+      );
+    } else if (definition["type"] === ControlType.Boolean) {
+      controls.push(
+        <div key={`ctrl-${x}`} className="inline-block mx-4">
+          <Button name={x} formData={formData} onClick={handleToggle}>
+            <i>i</i>
+          </Button>
         </div>
       );
     }

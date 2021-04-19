@@ -41,8 +41,7 @@ export const classBasedStyleControls = {
     options: ["antialiased", "subpixel-antialiased"],
   },
   fontStyle: {
-    type: ControlType.Enum,
-    options: ["italic", "not-italic"],
+    type: ControlType.Boolean,
   },
   fontWeight: {
     type: ControlType.Enum,

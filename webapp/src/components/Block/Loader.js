@@ -43,7 +43,7 @@ const getClassNames = ({
     innerClassName = `${innerClassName} ${fontSmoothing}`;
   }
   if (!!fontStyle) {
-    innerClassName = `${innerClassName} ${fontStyle}`;
+    innerClassName = `${innerClassName} italic`;
   }
   if (!!fontWeight) {
     innerClassName = `${innerClassName} font-${fontWeight}`;
