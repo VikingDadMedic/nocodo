@@ -43,6 +43,9 @@ export const classBasedStyleControls = {
   fontStyle: {
     type: ControlType.Boolean,
   },
+  fontBold: {
+    type: ControlType.Boolean,
+  },
   fontWeight: {
     type: ControlType.Enum,
     options: [

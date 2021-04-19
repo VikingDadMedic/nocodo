@@ -14,6 +14,7 @@ const getClassNames = ({
   fontFamily = undefined,
   fontSmoothing = undefined,
   fontStyle = undefined,
+  fontBold = undefined,
   fontWeight = undefined,
   fontVariantNumeric = undefined,
   letterSpacing = undefined,
@@ -44,6 +45,9 @@ const getClassNames = ({
   }
   if (!!fontStyle) {
     innerClassName = `${innerClassName} italic`;
+  }
+  if (!!fontBold) {
+    innerClassName = `${innerClassName} bold`;
   }
   if (!!fontWeight) {
     innerClassName = `${innerClassName} font-${fontWeight}`;

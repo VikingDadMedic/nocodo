@@ -31,7 +31,6 @@ const BlockControls = ({
   }
 
   const handleToggle = (name, value) => {
-    console.log(name, formData[name]);
     if (name === "fontStyle") {
       onChange(name, !formData[name]);
     }
