@@ -31,7 +31,7 @@ const BlockControls = ({
   }
 
   const handleToggle = (name, value) => {
-    if (name === "fontStyle") {
+    if (name === "fontStyle" || name === "fontBold") {
       onChange(name, !formData[name]);
     }
   };
@@ -70,13 +70,24 @@ const BlockControls = ({
         </div>
       );
     } else if (definition["type"] === ControlType.Boolean) {
-      controls.push(
-        <div key={`ctrl-${x}`} className="inline-block mx-4">
-          <Button name={x} formData={formData} onClick={handleToggle}>
-            <i>i</i>
-          </Button>
-        </div>
-      );
+      console.log(x);
+      if (x === "fontStyle") {
+        controls.push(
+          <div key={`ctrl-${x}`} className="inline-block mx-4">
+            <Button name={x} formData={formData} onClick={handleToggle}>
+              <i>i</i>
+            </Button>
+          </div>
+        );
+      } else if (x === "fontBold") {
+        controls.push(
+          <div key={`ctrl-${x}`} className="inline-block mx-4">
+            <Button name={x} formData={formData} onClick={handleToggle}>
+              <i>B</i>
+            </Button>
+          </div>
+        );
+      }
     }
   }
 
