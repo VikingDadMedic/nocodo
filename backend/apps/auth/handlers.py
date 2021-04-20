@@ -6,10 +6,10 @@ from utils.database import database, get_database
 from .schema import Token
 from .utils import authenticate_user, create_access_token
 
-authentication_router = APIRouter()
+auth_router = APIRouter()
 
 
-@authentication_router.post("/token", response_model=Token)
+@auth_router.post("/login", response_model=Token)
 async def login_with_password(
         form_data: OAuth2PasswordRequestForm = Depends(),
         db: database = Depends(get_database)
@@ -27,7 +27,10 @@ async def login_with_password(
         )
     access_token = create_access_token(
         data={
-            "username": result["email"]
+            "username": result["username"]
         },
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }

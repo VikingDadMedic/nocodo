@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from utils.database import database
 from utils.sentry import sentry_init
-from apps.authentication.handlers import authentication_router
+from apps.auth.handlers import auth_router
 from apps.user.handlers import user_router
 
 app = FastAPI()
@@ -29,6 +29,6 @@ app.include_router(
     prefix="/users"
 )
 app.include_router(
-    authentication_router,
+    auth_router,
     prefix="/auth"
 )
