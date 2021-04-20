@@ -20,6 +20,14 @@ async def _current_user(
         token: str,
         db: database = Depends(get_database)
 ) -> Optional[User]:
+    """
+    For a given JSON Web Token (which comes to the API through HTTP Headers) we try to find the user with the username
+    that is saved in the token. Token is created in the user creation or login API endpoints.
+
+    :param token: str The JWT token that is sent to API as HTTP Header
+    :param db: database Connection to our database
+    :return: Optional[User] Either we find a valid user in the database and return that user or return None
+    """
     if token is None:
         return None
     payload = jwt.decode(token, settings.public_key, algorithms=[settings.jwt_hash_algorithm])
@@ -40,6 +48,14 @@ async def get_current_user(
         token: str = Depends(oauth2_scheme),
         db: database = Depends(get_database)
 ) -> User:
+    """
+    This method simply uses the `_current_user` method to find the current user but raises an HTTP 401 Exception in
+    case user is not found.
+
+    :param token: str The JWT token that is sent to API as HTTP Header
+    :param db: database Connection to our database
+    :return: User Returns a user that is currently authenticated else raise a HTTP 401 Exception
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -55,6 +71,13 @@ async def get_optional_current_user(
         token: Optional[str] = Depends(oauth2_scheme),
         db: database = Depends(get_database)
 ) -> Optional[User]:
+    """
+    This method simply uses the `_current_user` method to find the current user if valid or else return None.
+
+    :param token: str The JWT token that is sent to API as HTTP Header
+    :param db: database Connection to our database
+    :return: Optional[User] Either we find a valid user in the database and return that user or return None
+    """
     if token is None:
         return None
     _user = await _current_user(token=token, db=db)
@@ -66,6 +89,15 @@ async def authenticate_user(
         password: str,
         db: database
 ) -> user:
+    """
+    Given a username and password we try to see if these are valid in the database and either successfully login or
+    fail.
+
+    :param username: str The username of the user trying to authenticate
+    :param password: str The password of the user that they selected when registering
+    :param db: database Connection to our database
+    :return: user The SQLAlchemy user Record
+    """
     query = user.select().where(
         user.c.username == username
     )
