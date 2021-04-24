@@ -32,8 +32,8 @@ const getInitial = () => {
 const useCurrentUser = create((set) => ({
   ...getInitial(),
 
-  fetchCurrentUser: async (id) => {
-    const response = await api.get(`/user/${id}`);
+  fetchCurrentUser: async () => {
+    const response = await api.get("/users/me");
 
     if (response.status === 200) {
       set((state) => ({

@@ -28,10 +28,12 @@ const Button = ({
   let handleClick = undefined;
   if (isDisabled) {
     handleClick = undefined;
-  } else if (!!onClick) {
+  } else if (!!onClick && !!name) {
     handleClick = () => {
       onClick(name);
     };
+  } else if (!!onClick) {
+    handleClick = onClick;
   } else if (!!linkTo) {
     handleClick = () => {
       history.push(linkTo);

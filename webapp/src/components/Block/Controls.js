@@ -70,7 +70,6 @@ const BlockControls = ({
         </div>
       );
     } else if (definition["type"] === ControlType.Boolean) {
-      console.log(x);
       if (x === "fontStyle") {
         controls.push(
           <div key={`ctrl-${x}`} className="inline-block mx-4">

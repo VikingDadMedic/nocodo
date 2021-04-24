@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.API_BASE_URL,
+  baseURL: process.env.API_BASE_URL || "http://localhost:8000",
   withCredentials: false,
   crossDomain: false,
   headers: {
@@ -27,7 +27,7 @@ api.interceptors.response.use(
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
 
-      window.location = "/login";
+      window.location = "/auth/login";
     }
     return Promise.reject(error);
   }
