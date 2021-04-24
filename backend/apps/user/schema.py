@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Optional
-
 from pydantic import BaseModel, constr
+
+from apps.auth.schema import Token
 
 
 class User(BaseModel):
@@ -20,3 +21,7 @@ class UserCreate(BaseModel):
 class UserUpdate(BaseModel):
     first_name: Optional[constr(max_length=60, strip_whitespace=True)]
     last_name: Optional[constr(max_length=60, strip_whitespace=True)]
+
+
+class UserWithToken(User, Token):
+    pass

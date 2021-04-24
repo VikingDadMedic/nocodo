@@ -14,7 +14,15 @@ page = Table(
     Column("id", Integer, primary_key=True),
 
     # This URL can be a format string with identifiers for use in React Router
-    Column("url", String(length=200), unique=True)
+    Column("url", String(length=200), nullable=False, unique=True),
+
+    Column("title", String(length=200), nullable=True),
+    Column("keywords", String(length=200), nullable=True),
+    Column("description", String(length=200), nullable=True),
+    Column("is_live", Boolean, default=False),
+
+    Column("user_id", Integer, ForeignKey("user_user.id"), nullable=False),
+    Column("created_at", DateTime, nullable=False, default=datetime.utcnow)
 )
 
 
@@ -34,14 +42,14 @@ block = Table(
     # This is nullable since a block can reside directly inside a page
     Column("parameter_name", String(length=60), nullable=True),
 
-    # This is the positing of this block among its siblings if an array (list) of blocks are passed to the parent
-    Column("position", SmallInteger, nullable=True),
+    # This is the positing of this block among its siblings which are all passed to the parent
+    Column("position", SmallInteger, nullable=False),
 
-    Column("class_name", JSON, nullable=False),
-    Column("style", JSON, nullable=True),
+    Column("class_names", JSON, nullable=False),
+    Column("styles", JSON, nullable=True),
     Column("event_handlers", JSON, nullable=True),
 
-    Column("user_id", Integer, ForeignKey("user_user.id"), nullable=True),
+    Column("user_id", Integer, ForeignKey("user_user.id"), nullable=False),
     Column("created_at", DateTime, nullable=False, default=datetime.utcnow),
 
     UniqueConstraint("page_id", "parent_block_id", "parameter_name", "position", name="unique_hierarchy_of_block"),

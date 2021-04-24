@@ -1,11 +1,24 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from utils.database import database
 from utils.sentry import sentry_init
 from apps.auth.handlers import auth_router
 from apps.user.handlers import user_router
 
+
+origins = [
+    "http://localhost:3000"
+]
+
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
